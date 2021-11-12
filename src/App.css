@@ -1,3 +1,11 @@
 .App {
   text-align: center;
 }
+.btn {
+  background-color: green;
+  color: white;
+  border: none;
+  width: 70px;
+  padding: 5px 10px;
+  border-radius: 4px;
+}

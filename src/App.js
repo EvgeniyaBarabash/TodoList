@@ -6,6 +6,8 @@ import TodoEditor from 'components/TodoList/TodoEitor';
 import initialTodos from './data/todos.json';
 import Filter from './components/TodoList/Filter';
 import Modal from './components/Modal/Modal';
+import IconButton from 'components/IconButton/IconButton';
+import { ReactComponent as AddIcon } from './components/icons/add.svg';
 class App extends Component {
   state = {
     todos: initialTodos,
@@ -16,6 +18,11 @@ class App extends Component {
     if (this.state.todos !== prevState.todos) {
       localStorage.setItem('todos', JSON.stringify(this.state.todos));
     }
+    // if(
+    //   this.state.todos.length>prevState.todos.length &&
+    //   prevState.todos.length !==0){
+    //     this.toggleModal();
+    //   }
   }
   componentDidMount() {
     const todos = localStorage.getItem('todos');
@@ -76,10 +83,17 @@ class App extends Component {
     const visibleTodos = this.getVisibleTodos();
     return (
       <>
-        <button type="button" onClick={this.toggleModal}>
-          Открыть модалку
-        </button>
-        {showModal && (<Modal onClose={this.toggleModal}><button type='button' onClick={this.toggleModal}>Close</button></Modal>)}
+        <IconButton onClick={this.toggleModal} aria-label="Добавить todo">
+          <AddIcon width="32" fill="#fff" />
+        </IconButton>
+        {showModal && (
+          <Modal onClose={this.toggleModal}>
+            <button type="button" className="btn" onClick={this.toggleModal}>
+              Close
+            </button>{' '}
+            <TodoEditor onSubmit={this.addTodo} />
+          </Modal>
+        )}
         <p>Общее количество:{todos.length}</p>
         <p>Количество выполненых:{completedTodoCount}</p>
         <TodoList
@@ -87,7 +101,7 @@ class App extends Component {
           onDeleteTodo={this.deleteTodo}
           onToggleCompleted={this.toggleCompleted}
         />
-        <TodoEditor onSubmit={this.addTodo} />
+
         <Filter value={filter} onChange={this.changeFilter} />
       </>
     );

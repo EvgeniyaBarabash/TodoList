@@ -16,9 +16,14 @@ class Modal extends Component {
   componentWillUmount() {
     window.removeEventListener('keydown', this.handleKeyDown);
   }
+  handleClickBackdrop = e => {
+    if (e.target === e.currentTarget) {
+      this.props.onClose();
+    }
+  };
   render() {
     return createPortal(
-      <div className="Modal__backdrop">
+      <div className="Modal__backdrop" onClick={this.handleClickBackdrop}>
         <div className="Modal__content">{this.props.children}</div>
       </div>,
       modalRoot,
